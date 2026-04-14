@@ -385,10 +385,10 @@ export const SOFT_TONES_BANK = {
 
 export const ALL_SOFT_TONES = Object.values(SOFT_TONES_BANK).flat();
 
-// Each preset defines: synthType, options, filterFreq, reverbWet, detuneCents
-// synthType: 'fm' for FMSynth (Rhodes/bell), 'am' for AMSynth, 'basic' for Synth
+// Each preset: synthType, options, filterFreq, reverbWet, detuneCents
+// Everything pushed through heavy lowpass + reverb for that dusty vinyl feel.
 const SOFT_TONE_CONFIGS = {
-  // Rhodes electric piano — the chillhop staple
+  // Rhodes — muffled electric piano, like through a 70s amp with the tone rolled off
   'rhodes': {
     synthType: 'fm',
     options: {
@@ -396,134 +396,134 @@ const SOFT_TONE_CONFIGS = {
       modulationIndex: 0.5,
       oscillator: { type: 'sine' },
       modulation: { type: 'sine' },
-      envelope: { attack: 0.005, decay: 0.8, sustain: 0.2, release: 1.4 },
-      modulationEnvelope: { attack: 0.002, decay: 0.5, sustain: 0.1, release: 0.8 },
+      envelope: { attack: 0.01, decay: 1.2, sustain: 0.15, release: 2.0 },
+      modulationEnvelope: { attack: 0.005, decay: 0.8, sustain: 0.05, release: 1.2 },
     },
-    filterFreq: 2200,
-    reverbWet: 0.3,
-    detuneCents: 4,
+    filterFreq: 900,
+    reverbWet: 0.5,
+    detuneCents: 8,
   },
-  // Wurlitzer — brighter, slightly gritty keys
+  // Wurlitzer — wobbly, dark, barely there
   'wurlitzer': {
     synthType: 'fm',
     options: {
       harmonicity: 2.0,
-      modulationIndex: 1.2,
+      modulationIndex: 1.0,
       oscillator: { type: 'sine' },
       modulation: { type: 'square' },
-      envelope: { attack: 0.003, decay: 0.6, sustain: 0.15, release: 1.0 },
-      modulationEnvelope: { attack: 0.003, decay: 0.4, sustain: 0.05, release: 0.6 },
+      envelope: { attack: 0.008, decay: 0.8, sustain: 0.1, release: 1.5 },
+      modulationEnvelope: { attack: 0.005, decay: 0.5, sustain: 0.02, release: 0.8 },
     },
-    filterFreq: 1800,
-    reverbWet: 0.25,
-    detuneCents: 6,
+    filterFreq: 700,
+    reverbWet: 0.45,
+    detuneCents: 15,
   },
-  // Kalimba — soft thumb piano pluck
+  // Kalimba — soft thumb piano, like recorded on a phone in a bedroom
   'kalimba': {
     synthType: 'fm',
     options: {
       harmonicity: 5.07,
-      modulationIndex: 0.3,
+      modulationIndex: 0.2,
       oscillator: { type: 'sine' },
       modulation: { type: 'sine' },
-      envelope: { attack: 0.001, decay: 1.2, sustain: 0.0, release: 0.6 },
-      modulationEnvelope: { attack: 0.001, decay: 0.4, sustain: 0.0, release: 0.3 },
+      envelope: { attack: 0.001, decay: 1.8, sustain: 0.0, release: 1.0 },
+      modulationEnvelope: { attack: 0.001, decay: 0.6, sustain: 0.0, release: 0.4 },
     },
-    filterFreq: 3500,
-    reverbWet: 0.45,
-    detuneCents: 0,
+    filterFreq: 1200,
+    reverbWet: 0.6,
+    detuneCents: 5,
   },
-  // Lo-fi pad — warm, warbly background wash
+  // Lo-fi pad — heavy, soupy, underwater warmth
   'lofi-pad': {
     synthType: 'basic',
     options: {
       oscillator: { type: 'sawtooth' },
-      envelope: { attack: 0.8, decay: 0.6, sustain: 0.5, release: 3.0 },
+      envelope: { attack: 1.2, decay: 0.8, sustain: 0.4, release: 4.0 },
     },
-    filterFreq: 700,
-    reverbWet: 0.55,
-    detuneCents: 8,
+    filterFreq: 350,
+    reverbWet: 0.7,
+    detuneCents: 18,
   },
-  // Tape pad — like audio through an old cassette
+  // Tape pad — cassette warble, washed out
   'tape-pad': {
     synthType: 'basic',
     options: {
       oscillator: { type: 'triangle' },
-      envelope: { attack: 0.6, decay: 0.4, sustain: 0.6, release: 2.5 },
+      envelope: { attack: 0.8, decay: 0.5, sustain: 0.5, release: 3.0 },
     },
-    filterFreq: 1000,
-    reverbWet: 0.4,
-    detuneCents: 12,
+    filterFreq: 500,
+    reverbWet: 0.6,
+    detuneCents: 22,
   },
-  // Vinyl wash — airy, distant, like music from another room
+  // Vinyl wash — barely a tone, more of a haze
   'vinyl-wash': {
     synthType: 'am',
     options: {
       harmonicity: 1.5,
       oscillator: { type: 'sine' },
       modulation: { type: 'sine' },
-      envelope: { attack: 1.0, decay: 0.5, sustain: 0.4, release: 3.5 },
-      modulationEnvelope: { attack: 0.5, decay: 0.3, sustain: 0.3, release: 2.0 },
+      envelope: { attack: 1.5, decay: 0.6, sustain: 0.3, release: 4.0 },
+      modulationEnvelope: { attack: 0.8, decay: 0.4, sustain: 0.2, release: 2.5 },
     },
-    filterFreq: 600,
-    reverbWet: 0.65,
-    detuneCents: 5,
+    filterFreq: 300,
+    reverbWet: 0.8,
+    detuneCents: 10,
   },
-  // Muted guitar — nylon pluck through a warm filter
+  // Muted guitar — pluck heard through a wall
   'muted-guitar': {
     synthType: 'fm',
     options: {
       harmonicity: 1.0,
-      modulationIndex: 0.8,
+      modulationIndex: 0.6,
       oscillator: { type: 'triangle' },
       modulation: { type: 'sine' },
-      envelope: { attack: 0.003, decay: 0.4, sustain: 0.05, release: 0.5 },
-      modulationEnvelope: { attack: 0.003, decay: 0.2, sustain: 0.0, release: 0.3 },
+      envelope: { attack: 0.005, decay: 0.5, sustain: 0.02, release: 0.6 },
+      modulationEnvelope: { attack: 0.005, decay: 0.3, sustain: 0.0, release: 0.3 },
     },
-    filterFreq: 1400,
-    reverbWet: 0.35,
-    detuneCents: 3,
+    filterFreq: 600,
+    reverbWet: 0.5,
+    detuneCents: 7,
   },
-  // Music box — delicate, crystalline
+  // Music box — distant, like a memory
   'music-box': {
     synthType: 'fm',
     options: {
       harmonicity: 6.0,
-      modulationIndex: 0.2,
+      modulationIndex: 0.15,
       oscillator: { type: 'sine' },
       modulation: { type: 'sine' },
-      envelope: { attack: 0.001, decay: 1.5, sustain: 0.0, release: 1.0 },
-      modulationEnvelope: { attack: 0.001, decay: 0.8, sustain: 0.0, release: 0.5 },
+      envelope: { attack: 0.001, decay: 2.0, sustain: 0.0, release: 1.5 },
+      modulationEnvelope: { attack: 0.001, decay: 1.0, sustain: 0.0, release: 0.8 },
     },
-    filterFreq: 4000,
-    reverbWet: 0.5,
-    detuneCents: 0,
+    filterFreq: 1500,
+    reverbWet: 0.7,
+    detuneCents: 3,
   },
-  // Sub bass — deep, round, felt more than heard
+  // Sub bass — deep round sine, the foundation
   'sub-bass': {
     synthType: 'basic',
     options: {
       oscillator: { type: 'sine' },
-      envelope: { attack: 0.02, decay: 0.3, sustain: 0.7, release: 0.6 },
+      envelope: { attack: 0.05, decay: 0.4, sustain: 0.6, release: 0.8 },
     },
-    filterFreq: 300,
-    reverbWet: 0.1,
+    filterFreq: 200,
+    reverbWet: 0.15,
     detuneCents: 0,
   },
-  // Round bass — slightly overdriven, warm, like an upright through tape
+  // Round bass — warm, fuzzy, like through a tube amp
   'round-bass': {
     synthType: 'fm',
     options: {
       harmonicity: 1.01,
-      modulationIndex: 2.0,
+      modulationIndex: 1.5,
       oscillator: { type: 'triangle' },
       modulation: { type: 'sine' },
-      envelope: { attack: 0.01, decay: 0.4, sustain: 0.4, release: 0.8 },
-      modulationEnvelope: { attack: 0.01, decay: 0.3, sustain: 0.2, release: 0.5 },
+      envelope: { attack: 0.02, decay: 0.5, sustain: 0.3, release: 1.0 },
+      modulationEnvelope: { attack: 0.02, decay: 0.4, sustain: 0.15, release: 0.6 },
     },
-    filterFreq: 500,
-    reverbWet: 0.15,
-    detuneCents: 2,
+    filterFreq: 350,
+    reverbWet: 0.25,
+    detuneCents: 5,
   },
 };
 
