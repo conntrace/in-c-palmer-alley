@@ -518,10 +518,16 @@ export async function loadSoftToneInstrument(name, destination) {
   const config = SOFT_TONE_CONFIGS[name];
   if (!config) throw new Error(`Unknown soft tone preset: ${name}`);
 
-  // Lo-fi effect chain
+  // Lo-fi effect chain: filter → reverb → destination
   const filter = new Tone.Filter(2500, 'lowpass', -12);
   const reverb = new Tone.Reverb({ decay: 1.8, wet: 0.3 });
   await reverb.generate();
+  filter.connect(reverb);
+  if (destination) {
+    reverb.connect(destination);
+  } else {
+    reverb.toDestination();
+  }
 
   // Load all drum hits for this kit
   const kitUrl = `${DRUM_SAMPLE_BASE}${config.kit}/`;
@@ -531,20 +537,23 @@ export async function loadSoftToneInstrument(name, destination) {
     return new Promise((resolve) => {
       const player = new Tone.Player({
         url: `${kitUrl}${hit}.mp3`,
-        onload: () => resolve(),
-        onerror: () => resolve(), // skip missing samples gracefully
+        onload: () => {
+          console.log(`    + drum hit loaded: ${config.kit}/${hit}`);
+          resolve();
+        },
+        onerror: (err) => {
+          console.warn(`    x drum hit failed: ${config.kit}/${hit}`, err);
+          resolve(); // skip missing samples gracefully
+        },
       });
-      player.chain(filter, reverb);
-      if (destination) {
-        reverb.connect(destination);
-      } else {
-        reverb.toDestination();
-      }
+      // Each player connects to the shared filter
+      player.connect(filter);
       players[hit] = player;
     });
   });
 
   await Promise.all(loadPromises);
+  console.log(`  Soft tone "${name}" ready (kit: ${config.kit})`);
   return new SoftToneAdapter(players, filter, reverb);
 }
 
