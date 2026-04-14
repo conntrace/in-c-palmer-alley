@@ -66,9 +66,10 @@ export const INSTRUMENT_BANK = {
     'telephone_ring', 'helicopter', 'applause', 'gunshot',
   ],
   'Soft Tones': [
-    'warm-pad', 'cloud-pad', 'drift-tone', 'haze-string',
-    'soft-keys', 'mellow-bell', 'vinyl-chime',
-    'dusty-pluck', 'tape-hum', 'lo-bass',
+    'rhodes', 'wurlitzer', 'kalimba',
+    'lofi-pad', 'tape-pad', 'vinyl-wash',
+    'muted-guitar', 'music-box',
+    'sub-bass', 'round-bass',
   ],
 };
 
@@ -220,7 +221,7 @@ export const CONFIG = {
     const idx = this.musicians.length;
     const label = idx < 26 ? String.fromCharCode(65 + idx) : `M${idx + 1}`;
     const color = EXTRA_COLORS[idx % EXTRA_COLORS.length];
-    const defaultInstrument = this.audioSource === 'softtones' ? 'warm-pad'
+    const defaultInstrument = this.audioSource === 'softtones' ? 'rhodes'
       : this.audioSource === 'tonejs' ? 'piano' : 'acoustic_grand_piano';
     this.musicians.push({
       label,

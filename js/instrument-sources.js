@@ -377,110 +377,199 @@ export const TONEJS_TO_SOUNDFONT = {
 // No samples to load — instant, warm, mellow sounds.
 
 export const SOFT_TONES_BANK = {
-  'Pads': ['warm-pad', 'cloud-pad', 'drift-tone', 'haze-string'],
-  'Keys': ['soft-keys', 'mellow-bell', 'vinyl-chime'],
-  'Plucks': ['dusty-pluck', 'tape-hum'],
-  'Bass': ['lo-bass'],
+  'Keys': ['rhodes', 'wurlitzer', 'kalimba'],
+  'Pads': ['lofi-pad', 'tape-pad', 'vinyl-wash'],
+  'Plucks': ['muted-guitar', 'music-box'],
+  'Bass': ['sub-bass', 'round-bass'],
 };
 
 export const ALL_SOFT_TONES = Object.values(SOFT_TONES_BANK).flat();
 
+// Each preset defines: synthType, options, filterFreq, reverbWet, detuneCents
+// synthType: 'fm' for FMSynth (Rhodes/bell), 'am' for AMSynth, 'basic' for Synth
 const SOFT_TONE_CONFIGS = {
-  'warm-pad': {
-    oscillator: { type: 'sine' },
-    envelope: { attack: 0.6, decay: 0.3, sustain: 0.7, release: 2.5 },
-    filterFreq: 1200,
+  // Rhodes electric piano — the chillhop staple
+  'rhodes': {
+    synthType: 'fm',
+    options: {
+      harmonicity: 3.01,
+      modulationIndex: 0.5,
+      oscillator: { type: 'sine' },
+      modulation: { type: 'sine' },
+      envelope: { attack: 0.005, decay: 0.8, sustain: 0.2, release: 1.4 },
+      modulationEnvelope: { attack: 0.002, decay: 0.5, sustain: 0.1, release: 0.8 },
+    },
+    filterFreq: 2200,
+    reverbWet: 0.3,
+    detuneCents: 4,
   },
-  'soft-keys': {
-    oscillator: { type: 'triangle' },
-    envelope: { attack: 0.08, decay: 0.4, sustain: 0.3, release: 1.2 },
-    filterFreq: 2000,
-  },
-  'mellow-bell': {
-    oscillator: { type: 'sine' },
-    envelope: { attack: 0.01, decay: 0.6, sustain: 0.1, release: 2.0 },
-    filterFreq: 3000,
-  },
-  'lo-bass': {
-    oscillator: { type: 'sine' },
-    envelope: { attack: 0.02, decay: 0.3, sustain: 0.6, release: 0.8 },
-    filterFreq: 400,
-  },
-  'dusty-pluck': {
-    oscillator: { type: 'triangle' },
-    envelope: { attack: 0.005, decay: 0.2, sustain: 0.05, release: 0.4 },
+  // Wurlitzer — brighter, slightly gritty keys
+  'wurlitzer': {
+    synthType: 'fm',
+    options: {
+      harmonicity: 2.0,
+      modulationIndex: 1.2,
+      oscillator: { type: 'sine' },
+      modulation: { type: 'square' },
+      envelope: { attack: 0.003, decay: 0.6, sustain: 0.15, release: 1.0 },
+      modulationEnvelope: { attack: 0.003, decay: 0.4, sustain: 0.05, release: 0.6 },
+    },
     filterFreq: 1800,
+    reverbWet: 0.25,
+    detuneCents: 6,
   },
-  'cloud-pad': {
-    oscillator: { type: 'sawtooth' },
-    envelope: { attack: 0.8, decay: 0.5, sustain: 0.6, release: 3.0 },
-    filterFreq: 800,
+  // Kalimba — soft thumb piano pluck
+  'kalimba': {
+    synthType: 'fm',
+    options: {
+      harmonicity: 5.07,
+      modulationIndex: 0.3,
+      oscillator: { type: 'sine' },
+      modulation: { type: 'sine' },
+      envelope: { attack: 0.001, decay: 1.2, sustain: 0.0, release: 0.6 },
+      modulationEnvelope: { attack: 0.001, decay: 0.4, sustain: 0.0, release: 0.3 },
+    },
+    filterFreq: 3500,
+    reverbWet: 0.45,
+    detuneCents: 0,
   },
-  'tape-hum': {
-    oscillator: { type: 'sine' },
-    envelope: { attack: 0.15, decay: 0.3, sustain: 0.5, release: 1.0 },
+  // Lo-fi pad — warm, warbly background wash
+  'lofi-pad': {
+    synthType: 'basic',
+    options: {
+      oscillator: { type: 'sawtooth' },
+      envelope: { attack: 0.8, decay: 0.6, sustain: 0.5, release: 3.0 },
+    },
+    filterFreq: 700,
+    reverbWet: 0.55,
+    detuneCents: 8,
+  },
+  // Tape pad — like audio through an old cassette
+  'tape-pad': {
+    synthType: 'basic',
+    options: {
+      oscillator: { type: 'triangle' },
+      envelope: { attack: 0.6, decay: 0.4, sustain: 0.6, release: 2.5 },
+    },
     filterFreq: 1000,
+    reverbWet: 0.4,
+    detuneCents: 12,
   },
-  'vinyl-chime': {
-    oscillator: { type: 'square' },
-    envelope: { attack: 0.01, decay: 0.3, sustain: 0.1, release: 0.8 },
-    filterFreq: 1400,
-  },
-  'drift-tone': {
-    oscillator: { type: 'triangle' },
-    envelope: { attack: 0.5, decay: 0.4, sustain: 0.5, release: 2.0 },
-    filterFreq: 1600,
-  },
-  'haze-string': {
-    oscillator: { type: 'sawtooth' },
-    envelope: { attack: 0.7, decay: 0.5, sustain: 0.4, release: 2.5 },
+  // Vinyl wash — airy, distant, like music from another room
+  'vinyl-wash': {
+    synthType: 'am',
+    options: {
+      harmonicity: 1.5,
+      oscillator: { type: 'sine' },
+      modulation: { type: 'sine' },
+      envelope: { attack: 1.0, decay: 0.5, sustain: 0.4, release: 3.5 },
+      modulationEnvelope: { attack: 0.5, decay: 0.3, sustain: 0.3, release: 2.0 },
+    },
     filterFreq: 600,
+    reverbWet: 0.65,
+    detuneCents: 5,
+  },
+  // Muted guitar — nylon pluck through a warm filter
+  'muted-guitar': {
+    synthType: 'fm',
+    options: {
+      harmonicity: 1.0,
+      modulationIndex: 0.8,
+      oscillator: { type: 'triangle' },
+      modulation: { type: 'sine' },
+      envelope: { attack: 0.003, decay: 0.4, sustain: 0.05, release: 0.5 },
+      modulationEnvelope: { attack: 0.003, decay: 0.2, sustain: 0.0, release: 0.3 },
+    },
+    filterFreq: 1400,
+    reverbWet: 0.35,
+    detuneCents: 3,
+  },
+  // Music box — delicate, crystalline
+  'music-box': {
+    synthType: 'fm',
+    options: {
+      harmonicity: 6.0,
+      modulationIndex: 0.2,
+      oscillator: { type: 'sine' },
+      modulation: { type: 'sine' },
+      envelope: { attack: 0.001, decay: 1.5, sustain: 0.0, release: 1.0 },
+      modulationEnvelope: { attack: 0.001, decay: 0.8, sustain: 0.0, release: 0.5 },
+    },
+    filterFreq: 4000,
+    reverbWet: 0.5,
+    detuneCents: 0,
+  },
+  // Sub bass — deep, round, felt more than heard
+  'sub-bass': {
+    synthType: 'basic',
+    options: {
+      oscillator: { type: 'sine' },
+      envelope: { attack: 0.02, decay: 0.3, sustain: 0.7, release: 0.6 },
+    },
+    filterFreq: 300,
+    reverbWet: 0.1,
+    detuneCents: 0,
+  },
+  // Round bass — slightly overdriven, warm, like an upright through tape
+  'round-bass': {
+    synthType: 'fm',
+    options: {
+      harmonicity: 1.01,
+      modulationIndex: 2.0,
+      oscillator: { type: 'triangle' },
+      modulation: { type: 'sine' },
+      envelope: { attack: 0.01, decay: 0.4, sustain: 0.4, release: 0.8 },
+      modulationEnvelope: { attack: 0.01, decay: 0.3, sustain: 0.2, release: 0.5 },
+    },
+    filterFreq: 500,
+    reverbWet: 0.15,
+    detuneCents: 2,
   },
 };
 
 // Mapping tables: Soft Tones ↔ SoundFont / Tone.js
 const SOUNDFONT_TO_SOFTTONES = {
-  acoustic_grand_piano: 'soft-keys', bright_acoustic_piano: 'soft-keys',
-  electric_piano_1: 'soft-keys', electric_piano_2: 'soft-keys',
-  harpsichord: 'vinyl-chime', clavinet: 'dusty-pluck',
-  celesta: 'mellow-bell', glockenspiel: 'mellow-bell', music_box: 'mellow-bell',
-  vibraphone: 'mellow-bell', marimba: 'dusty-pluck', xylophone: 'dusty-pluck',
-  church_organ: 'cloud-pad', drawbar_organ: 'warm-pad', reed_organ: 'drift-tone',
-  accordion: 'tape-hum', harmonica: 'tape-hum',
-  violin: 'haze-string', viola: 'haze-string', cello: 'drift-tone',
-  contrabass: 'lo-bass', string_ensemble_1: 'cloud-pad', string_ensemble_2: 'warm-pad',
-  trumpet: 'soft-keys', trombone: 'warm-pad', tuba: 'lo-bass',
-  french_horn: 'drift-tone', brass_section: 'cloud-pad',
-  flute: 'mellow-bell', clarinet: 'tape-hum', bassoon: 'lo-bass',
-  alto_sax: 'warm-pad', tenor_sax: 'drift-tone',
-  acoustic_guitar_nylon: 'dusty-pluck', acoustic_guitar_steel: 'dusty-pluck',
-  electric_guitar_clean: 'vinyl-chime', orchestral_harp: 'mellow-bell',
-  electric_bass_finger: 'lo-bass',
+  acoustic_grand_piano: 'rhodes', bright_acoustic_piano: 'wurlitzer',
+  electric_piano_1: 'rhodes', electric_piano_2: 'wurlitzer',
+  harpsichord: 'kalimba', clavinet: 'wurlitzer',
+  celesta: 'music-box', glockenspiel: 'music-box', music_box: 'music-box',
+  vibraphone: 'kalimba', marimba: 'kalimba', xylophone: 'kalimba',
+  church_organ: 'lofi-pad', drawbar_organ: 'tape-pad', reed_organ: 'tape-pad',
+  accordion: 'tape-pad', harmonica: 'tape-pad',
+  violin: 'vinyl-wash', viola: 'vinyl-wash', cello: 'tape-pad',
+  contrabass: 'sub-bass', string_ensemble_1: 'lofi-pad', string_ensemble_2: 'vinyl-wash',
+  trumpet: 'wurlitzer', trombone: 'tape-pad', tuba: 'sub-bass',
+  french_horn: 'lofi-pad', brass_section: 'lofi-pad',
+  flute: 'music-box', clarinet: 'tape-pad', bassoon: 'round-bass',
+  alto_sax: 'wurlitzer', tenor_sax: 'rhodes',
+  acoustic_guitar_nylon: 'muted-guitar', acoustic_guitar_steel: 'muted-guitar',
+  electric_guitar_clean: 'muted-guitar', orchestral_harp: 'kalimba',
+  electric_bass_finger: 'round-bass',
 };
 
 const SOFTTONES_TO_SOUNDFONT = {
-  'warm-pad': 'pad_2_warm', 'soft-keys': 'electric_piano_1',
-  'mellow-bell': 'celesta', 'lo-bass': 'synth_bass_1',
-  'dusty-pluck': 'pizzicato_strings', 'cloud-pad': 'pad_1_new_age',
-  'tape-hum': 'harmonica', 'vinyl-chime': 'music_box',
-  'drift-tone': 'pad_7_halo', 'haze-string': 'synth_strings_1',
+  'rhodes': 'electric_piano_1', 'wurlitzer': 'electric_piano_2',
+  'kalimba': 'celesta', 'lofi-pad': 'pad_2_warm',
+  'tape-pad': 'pad_7_halo', 'vinyl-wash': 'synth_strings_1',
+  'muted-guitar': 'acoustic_guitar_nylon', 'music-box': 'music_box',
+  'sub-bass': 'synth_bass_1', 'round-bass': 'electric_bass_finger',
 };
 
 const SOFTTONES_TO_TONEJS = {
-  'warm-pad': 'harmonium', 'soft-keys': 'piano', 'mellow-bell': 'xylophone',
-  'lo-bass': 'bass-electric', 'dusty-pluck': 'guitar-nylon',
-  'cloud-pad': 'harmonium', 'tape-hum': 'harmonium', 'vinyl-chime': 'piano',
-  'drift-tone': 'organ', 'haze-string': 'cello',
+  'rhodes': 'piano', 'wurlitzer': 'piano', 'kalimba': 'xylophone',
+  'lofi-pad': 'harmonium', 'tape-pad': 'organ', 'vinyl-wash': 'harmonium',
+  'muted-guitar': 'guitar-nylon', 'music-box': 'xylophone',
+  'sub-bass': 'bass-electric', 'round-bass': 'bass-electric',
 };
 
 const TONEJS_TO_SOFTTONES = {
-  'piano': 'soft-keys', 'french-horn': 'drift-tone', 'trumpet': 'soft-keys',
-  'trombone': 'warm-pad', 'tuba': 'lo-bass', 'violin': 'haze-string',
-  'cello': 'drift-tone', 'contrabass': 'lo-bass', 'flute': 'mellow-bell',
-  'clarinet': 'tape-hum', 'bassoon': 'lo-bass', 'saxophone': 'warm-pad',
-  'guitar-acoustic': 'dusty-pluck', 'guitar-electric': 'vinyl-chime',
-  'guitar-nylon': 'dusty-pluck', 'harp': 'mellow-bell', 'xylophone': 'mellow-bell',
-  'organ': 'cloud-pad', 'harmonium': 'warm-pad', 'bass-electric': 'lo-bass',
+  'piano': 'rhodes', 'french-horn': 'lofi-pad', 'trumpet': 'wurlitzer',
+  'trombone': 'tape-pad', 'tuba': 'sub-bass', 'violin': 'vinyl-wash',
+  'cello': 'tape-pad', 'contrabass': 'sub-bass', 'flute': 'music-box',
+  'clarinet': 'tape-pad', 'bassoon': 'round-bass', 'saxophone': 'wurlitzer',
+  'guitar-acoustic': 'muted-guitar', 'guitar-electric': 'muted-guitar',
+  'guitar-nylon': 'muted-guitar', 'harp': 'kalimba', 'xylophone': 'kalimba',
+  'organ': 'lofi-pad', 'harmonium': 'tape-pad', 'bass-electric': 'round-bass',
 };
 
 // ─── Soft Tone Adapter ────────────────────────────────────────────────────
@@ -524,15 +613,28 @@ export async function loadSoftToneInstrument(name, destination) {
   const config = SOFT_TONE_CONFIGS[name];
   if (!config) throw new Error(`Unknown soft tone preset: ${name}`);
 
+  // Build effect chain
   const filter = new Tone.Filter(config.filterFreq, 'lowpass', -24);
-  const reverb = new Tone.Reverb({ decay: 2.5, wet: 0.35 });
+  const reverb = new Tone.Reverb({ decay: 2.5, wet: config.reverbWet || 0.35 });
   await reverb.generate();
 
-  const synth = new Tone.PolySynth(Tone.Synth, {
+  // Select synth type based on preset
+  let SynthClass;
+  switch (config.synthType) {
+    case 'fm':  SynthClass = Tone.FMSynth; break;
+    case 'am':  SynthClass = Tone.AMSynth; break;
+    default:    SynthClass = Tone.Synth; break;
+  }
+
+  const synth = new Tone.PolySynth(SynthClass, {
     maxPolyphony: 8,
-    oscillator: config.oscillator,
-    envelope: config.envelope,
+    ...config.options,
   });
+
+  // Apply lo-fi detune for that warm wobbly character
+  if (config.detuneCents) {
+    synth.set({ detune: config.detuneCents });
+  }
 
   // Chain: synth → filter → reverb → destination
   synth.chain(filter, reverb);

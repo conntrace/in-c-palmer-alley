@@ -42,17 +42,17 @@ const INSTRUMENT_GAIN = {
   'guitar-acoustic': 0.8,
   'guitar-electric': 0.8,
   'guitar-nylon': 0.8,
-  // Soft Tones
-  'warm-pad': 0.7,
-  'soft-keys': 0.75,
-  'mellow-bell': 0.8,
-  'lo-bass': 0.5,
-  'dusty-pluck': 0.8,
-  'cloud-pad': 0.6,
-  'tape-hum': 0.7,
-  'vinyl-chime': 0.75,
-  'drift-tone': 0.65,
-  'haze-string': 0.55,
+  // Soft Tones (chillhop)
+  'rhodes': 0.7,
+  'wurlitzer': 0.65,
+  'kalimba': 0.75,
+  'lofi-pad': 0.5,
+  'tape-pad': 0.55,
+  'vinyl-wash': 0.45,
+  'muted-guitar': 0.7,
+  'music-box': 0.7,
+  'sub-bass': 0.5,
+  'round-bass': 0.55,
 };
 
 // Grace note duration: very short ornament
