@@ -385,146 +385,22 @@ export const SOFT_TONES_BANK = {
 
 export const ALL_SOFT_TONES = Object.values(SOFT_TONES_BANK).flat();
 
-// Each preset: synthType, options, filterFreq, reverbWet, detuneCents
-// Everything pushed through heavy lowpass + reverb for that dusty vinyl feel.
+// Drum sample kits hosted by Tone.js — real drum sounds
+const DRUM_SAMPLE_BASE = 'https://tonejs.github.io/audio/drum-samples/';
+
+// Each preset uses a different drum kit. MIDI notes are mapped to drum hits:
+//   ≤58 = kick, 59-63 = snare, 64-68 = tom1, 69-73 = tom2, 74-78 = tom3, ≥79 = hihat
 const SOFT_TONE_CONFIGS = {
-  // Rhodes — muffled electric piano, like through a 70s amp with the tone rolled off
-  'rhodes': {
-    synthType: 'fm',
-    options: {
-      harmonicity: 3.01,
-      modulationIndex: 0.5,
-      oscillator: { type: 'sine' },
-      modulation: { type: 'sine' },
-      envelope: { attack: 0.01, decay: 1.2, sustain: 0.15, release: 2.0 },
-      modulationEnvelope: { attack: 0.005, decay: 0.8, sustain: 0.05, release: 1.2 },
-    },
-    filterFreq: 900,
-    reverbWet: 0.5,
-    detuneCents: 8,
-  },
-  // Wurlitzer — wobbly, dark, barely there
-  'wurlitzer': {
-    synthType: 'fm',
-    options: {
-      harmonicity: 2.0,
-      modulationIndex: 1.0,
-      oscillator: { type: 'sine' },
-      modulation: { type: 'square' },
-      envelope: { attack: 0.008, decay: 0.8, sustain: 0.1, release: 1.5 },
-      modulationEnvelope: { attack: 0.005, decay: 0.5, sustain: 0.02, release: 0.8 },
-    },
-    filterFreq: 700,
-    reverbWet: 0.45,
-    detuneCents: 15,
-  },
-  // Kalimba — soft thumb piano, like recorded on a phone in a bedroom
-  'kalimba': {
-    synthType: 'fm',
-    options: {
-      harmonicity: 5.07,
-      modulationIndex: 0.2,
-      oscillator: { type: 'sine' },
-      modulation: { type: 'sine' },
-      envelope: { attack: 0.001, decay: 1.8, sustain: 0.0, release: 1.0 },
-      modulationEnvelope: { attack: 0.001, decay: 0.6, sustain: 0.0, release: 0.4 },
-    },
-    filterFreq: 1200,
-    reverbWet: 0.6,
-    detuneCents: 5,
-  },
-  // Lo-fi pad — heavy, soupy, underwater warmth
-  'lofi-pad': {
-    synthType: 'basic',
-    options: {
-      oscillator: { type: 'sawtooth' },
-      envelope: { attack: 1.2, decay: 0.8, sustain: 0.4, release: 4.0 },
-    },
-    filterFreq: 350,
-    reverbWet: 0.7,
-    detuneCents: 18,
-  },
-  // Tape pad — cassette warble, washed out
-  'tape-pad': {
-    synthType: 'basic',
-    options: {
-      oscillator: { type: 'triangle' },
-      envelope: { attack: 0.8, decay: 0.5, sustain: 0.5, release: 3.0 },
-    },
-    filterFreq: 500,
-    reverbWet: 0.6,
-    detuneCents: 22,
-  },
-  // Vinyl wash — barely a tone, more of a haze
-  'vinyl-wash': {
-    synthType: 'am',
-    options: {
-      harmonicity: 1.5,
-      oscillator: { type: 'sine' },
-      modulation: { type: 'sine' },
-      envelope: { attack: 1.5, decay: 0.6, sustain: 0.3, release: 4.0 },
-      modulationEnvelope: { attack: 0.8, decay: 0.4, sustain: 0.2, release: 2.5 },
-    },
-    filterFreq: 300,
-    reverbWet: 0.8,
-    detuneCents: 10,
-  },
-  // Muted guitar — pluck heard through a wall
-  'muted-guitar': {
-    synthType: 'fm',
-    options: {
-      harmonicity: 1.0,
-      modulationIndex: 0.6,
-      oscillator: { type: 'triangle' },
-      modulation: { type: 'sine' },
-      envelope: { attack: 0.005, decay: 0.5, sustain: 0.02, release: 0.6 },
-      modulationEnvelope: { attack: 0.005, decay: 0.3, sustain: 0.0, release: 0.3 },
-    },
-    filterFreq: 600,
-    reverbWet: 0.5,
-    detuneCents: 7,
-  },
-  // Music box — distant, like a memory
-  'music-box': {
-    synthType: 'fm',
-    options: {
-      harmonicity: 6.0,
-      modulationIndex: 0.15,
-      oscillator: { type: 'sine' },
-      modulation: { type: 'sine' },
-      envelope: { attack: 0.001, decay: 2.0, sustain: 0.0, release: 1.5 },
-      modulationEnvelope: { attack: 0.001, decay: 1.0, sustain: 0.0, release: 0.8 },
-    },
-    filterFreq: 1500,
-    reverbWet: 0.7,
-    detuneCents: 3,
-  },
-  // Sub bass — deep round sine, the foundation
-  'sub-bass': {
-    synthType: 'basic',
-    options: {
-      oscillator: { type: 'sine' },
-      envelope: { attack: 0.05, decay: 0.4, sustain: 0.6, release: 0.8 },
-    },
-    filterFreq: 200,
-    reverbWet: 0.15,
-    detuneCents: 0,
-  },
-  // Round bass — warm, fuzzy, like through a tube amp
-  'round-bass': {
-    synthType: 'fm',
-    options: {
-      harmonicity: 1.01,
-      modulationIndex: 1.5,
-      oscillator: { type: 'triangle' },
-      modulation: { type: 'sine' },
-      envelope: { attack: 0.02, decay: 0.5, sustain: 0.3, release: 1.0 },
-      modulationEnvelope: { attack: 0.02, decay: 0.4, sustain: 0.15, release: 0.6 },
-    },
-    filterFreq: 350,
-    reverbWet: 0.25,
-    detuneCents: 5,
-  },
+  'rhodes':       { kit: 'CR78' },       // vintage analog drum machine
+  'wurlitzer':    { kit: 'KPR77' },      // lo-fi drum machine
+  'kalimba':      { kit: 'Kit3' },       // soft acoustic kit
+  'lofi-pad':     { kit: 'Kit8' },       // warm muffled kit
+  'tape-pad':     { kit: 'Stark' },      // minimal, dry hits
+  'vinyl-wash':   { kit: 'R8' },         // classic R8 samples
+  'muted-guitar': { kit: 'breakbeat8' }, // breakbeat chops
+  'music-box':    { kit: 'Bongos' },     // hand percussion
+  'sub-bass':     { kit: 'LINN' },       // LinnDrum — iconic lo-fi
+  'round-bass':   { kit: 'breakbeat9' }, // chopped break
 };
 
 // Mapping tables: Soft Tones ↔ SoundFont / Tone.js
@@ -572,32 +448,61 @@ const TONEJS_TO_SOFTTONES = {
   'organ': 'lofi-pad', 'harmonium': 'tape-pad', 'bass-electric': 'round-bass',
 };
 
-// ─── Soft Tone Adapter ────────────────────────────────────────────────────
-// Wraps Tone.PolySynth + Filter + Reverb to match .play() interface
+// ─── Soft Tone Adapter (Drum Samples) ─────────────────────────────────────
+// Maps MIDI note numbers to drum hits from Tone.js hosted sample kits.
+// Low notes = kicks, mid = snares/toms, high = hihats.
+
+const DRUM_HITS = ['kick', 'snare', 'tom1', 'tom2', 'tom3', 'hihat'];
+
+// MIDI note → drum hit index
+function midiToDrumHit(midi) {
+  if (midi <= 58) return 'kick';
+  if (midi <= 63) return 'snare';
+  if (midi <= 68) return 'tom1';
+  if (midi <= 73) return 'tom2';
+  if (midi <= 78) return 'tom3';
+  return 'hihat';
+}
 
 class SoftToneAdapter {
-  constructor(synth, filter, reverb) {
-    this.synth = synth;
+  constructor(players, filter, reverb) {
+    this.players = players; // { kick: Tone.Player, snare: ..., etc }
     this.filter = filter;
     this.reverb = reverb;
   }
 
   play(noteName, when, options = {}) {
-    const { duration = 1, gain = 0.8 } = options;
+    const { gain = 0.8 } = options;
+
+    // Convert note name back to MIDI to pick the drum hit
+    const midi = this._noteNameToMidi(noteName);
+    const hit = midiToDrumHit(midi);
+    const player = this.players[hit];
+    if (!player || !player.loaded) return { stop() {} };
+
     try {
-      this.synth.volume.value = this._gainToDb(gain * 0.6); // softer overall
+      player.volume.value = this._gainToDb(gain * 0.7);
       const now = Tone.now();
       const offset = Math.max(0, when - Tone.context.currentTime);
-      this.synth.triggerAttackRelease(noteName, duration, now + offset);
+      player.start(now + offset);
     } catch (e) {
       // Ignore scheduling errors
     }
-    const synth = this.synth;
+
     return {
       stop() {
-        try { synth.releaseAll(); } catch (_) {}
+        try { player.stop(); } catch (_) {}
       }
     };
+  }
+
+  _noteNameToMidi(name) {
+    const match = name.match(/^([A-G]#?)(\d+)$/);
+    if (!match) return 60;
+    const noteMap = { C:0,'C#':1,D:2,'D#':3,E:4,F:5,'F#':6,G:7,'G#':8,A:9,'A#':10,B:11 };
+    const semitone = noteMap[match[1]] ?? 0;
+    const octave = parseInt(match[2]);
+    return (octave + 1) * 12 + semitone;
   }
 
   _gainToDb(gain) {
@@ -613,38 +518,34 @@ export async function loadSoftToneInstrument(name, destination) {
   const config = SOFT_TONE_CONFIGS[name];
   if (!config) throw new Error(`Unknown soft tone preset: ${name}`);
 
-  // Build effect chain
-  const filter = new Tone.Filter(config.filterFreq, 'lowpass', -24);
-  const reverb = new Tone.Reverb({ decay: 2.5, wet: config.reverbWet || 0.35 });
+  // Lo-fi effect chain
+  const filter = new Tone.Filter(2500, 'lowpass', -12);
+  const reverb = new Tone.Reverb({ decay: 1.8, wet: 0.3 });
   await reverb.generate();
 
-  // Select synth type based on preset
-  let SynthClass;
-  switch (config.synthType) {
-    case 'fm':  SynthClass = Tone.FMSynth; break;
-    case 'am':  SynthClass = Tone.AMSynth; break;
-    default:    SynthClass = Tone.Synth; break;
-  }
+  // Load all drum hits for this kit
+  const kitUrl = `${DRUM_SAMPLE_BASE}${config.kit}/`;
+  const players = {};
 
-  const synth = new Tone.PolySynth(SynthClass, {
-    maxPolyphony: 8,
-    ...config.options,
+  const loadPromises = DRUM_HITS.map(hit => {
+    return new Promise((resolve) => {
+      const player = new Tone.Player({
+        url: `${kitUrl}${hit}.mp3`,
+        onload: () => resolve(),
+        onerror: () => resolve(), // skip missing samples gracefully
+      });
+      player.chain(filter, reverb);
+      if (destination) {
+        reverb.connect(destination);
+      } else {
+        reverb.toDestination();
+      }
+      players[hit] = player;
+    });
   });
 
-  // Apply lo-fi detune for that warm wobbly character
-  if (config.detuneCents) {
-    synth.set({ detune: config.detuneCents });
-  }
-
-  // Chain: synth → filter → reverb → destination
-  synth.chain(filter, reverb);
-  if (destination) {
-    reverb.connect(destination);
-  } else {
-    reverb.toDestination();
-  }
-
-  return new SoftToneAdapter(synth, filter, reverb);
+  await Promise.all(loadPromises);
+  return new SoftToneAdapter(players, filter, reverb);
 }
 
 // ─── Tone.js Instrument Adapter ─────────────────────────────────────────────
