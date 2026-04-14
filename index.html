@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>In C: The Audience Ensemble</title>
+  <link rel="stylesheet" href="css/styles.css?v=4">
+</head>
+<body>
+  <div id="app">
+    <!-- Start Overlay -->
+    <div id="start-overlay">
+      <div class="start-content">
+        <h1 class="start-title">In C</h1>
+        <p class="start-subtitle">The Audience Ensemble</p>
+        <button id="btn-play-demo" class="play-btn" aria-label="Start">
+          <svg viewBox="0 0 64 64" width="64" height="64">
+            <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width="2"/>
+            <polygon points="26,20 26,44 46,32" fill="currentColor"/>
+          </svg>
+        </button>
+        <p class="start-hint">Press to start demo &middot; Click "Walk Mode" to explore the alley</p>
+      </div>
+    </div>
+
+    <!-- Score Projection -->
+    <section id="score-section">
+      <canvas id="score-canvas"></canvas>
+    </section>
+
+    <!-- Button Stations — Palmer Alley site plan -->
+    <section id="button-section">
+      <div id="site-plan">
+        <!-- Street labels -->
+        <div class="street street-top">I STREET NW</div>
+        <div class="street street-bottom">PALMER ALLEY</div>
+        <div class="street street-left">11TH ST NW</div>
+        <div class="street street-mid-left">10TH ST NW</div>
+        <div class="street street-mid-right"></div>
+        <div class="street street-right">9TH ST NW</div>
+
+        <!-- Building blocks -->
+        <div class="building bldg-left-top"></div>
+        <div class="building bldg-left-bottom"></div>
+        <div class="building bldg-center-top"></div>
+        <div class="building bldg-center-bottom"></div>
+        <div class="building bldg-right-top"></div>
+        <div class="building bldg-right-bottom"></div>
+
+        <!-- Walker dot -->
+        <div id="walker-dot"></div>
+
+        <!-- Alley zones with musician buttons -->
+        <div id="zone-left" class="button-zone">
+          <div class="zone-tag">Zone A</div>
+        </div>
+        <div id="zone-center" class="button-zone">
+          <div class="zone-tag">Zone B</div>
+        </div>
+        <div id="zone-right" class="button-zone">
+          <div class="zone-tag">Zone C</div>
+        </div>
+      </div>
+      <div id="button-row" style="display:none;"></div>
+    </section>
+
+    <!-- Status Bar -->
+    <div id="status-bar">
+      <div class="status-item">
+        <span class="status-label">BPM</span>
+        <span class="status-value" id="status-bpm">120</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">Spread</span>
+        <span class="status-value" id="status-spread">0 / 5</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">Range</span>
+        <span class="status-value" id="status-range">1 - 1</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">Mode</span>
+        <span class="status-value" id="status-mode">Stopped</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">Beat</span>
+        <span class="status-value" id="status-beat">-</span>
+      </div>
+      <button class="status-item walk-toggle" id="btn-walk">Walk Mode</button>
+      <a href="admin.html" class="status-item admin-link">Admin</a>
+    </div>
+
+    <!-- Operator Panel -->
+    <div id="operator-panel">
+      <div id="operator-content">
+        <h2>Operator Panel</h2>
+
+        <div class="op-section">
+          <h3>Transport</h3>
+          <div class="op-row">
+            <button class="op-btn primary" id="op-start">Start</button>
+            <button class="op-btn" id="op-pause">Pause</button>
+            <button class="op-btn" id="op-reset">Reset</button>
+          </div>
+        </div>
+
+        <div class="op-section">
+          <h3>Configuration</h3>
+          <div class="op-row">
+            <label>Piece</label>
+            <select id="op-piece">
+              <option value="in-c">In C</option>
+              <option value="the-glade">The Glade</option>
+              <option value="lanterns">Lanterns</option>
+              <option value="tides">Tides</option>
+            </select>
+          </div>
+          <div class="op-row">
+            <label>BPM</label>
+            <input type="number" id="op-bpm" value="120" min="40" max="240">
+          </div>
+          <div class="op-row">
+            <label>Total Units (N)</label>
+            <input type="number" id="op-units" value="53" min="5" max="100">
+          </div>
+          <div class="op-row">
+            <label>Max Spread</label>
+            <input type="number" id="op-spread" value="5" min="1" max="20">
+          </div>
+          <div class="op-row">
+            <label>End Behavior</label>
+            <select id="op-end-behavior">
+              <option value="wrap" selected>Wrap</option>
+              <option value="hold">Hold</option>
+              <option value="resetAll">Reset All</option>
+            </select>
+          </div>
+          <div class="op-row">
+            <label>Audio Source</label>
+            <select id="op-audio-source">
+              <option value="soundfont">SoundFont (128)</option>
+              <option value="tonejs">Tone.js (20)</option>
+              <option value="softtones">Soft Tones (10)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="op-section">
+          <h3>Demo Mode</h3>
+          <div class="op-row">
+            <label>Auto-play</label>
+            <button class="op-btn" id="op-demo">Off</button>
+          </div>
+        </div>
+
+        <p class="op-hint">Press Escape to close. Press D to toggle demo mode. Keys 1-0 control musicians.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/soundfont-player@0.12.0/dist/soundfont-player.min.js"></script>
+  <script src="https://unpkg.com/tone@14.7.77/build/Tone.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
